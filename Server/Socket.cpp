@@ -89,7 +89,7 @@ std::vector<std::string> ServerSocket::Recv()
 	{
 		result = recv(clientSock, recvbuf, DEFAULT_BUFLEN, 0);
 		if (result > 0) {
-			std::cout << "Bytes received: " << result << std::endl;
+			std::cout << "Bytes received from client: " << result << std::endl;
 			data = recvbuf;
 			if (data.find("0 0") != std::string::npos)
 			{
@@ -172,14 +172,14 @@ void ClientSocket::Send(const std::string& pair)
 	int result = 0;
 	do
 	{
-		result = send(sock, pair.c_str(), 10, 0); // refactor 10!!!
+		result = send(sock, pair.c_str(), DEFAULT_BUFLEN, 0);
 		if (result == SOCKET_ERROR) {
 			std::cout << "Send failed with error: " << WSAGetLastError() << std::endl;
 			closesocket(sock);
 			WSACleanup();
 			throw std::exception("Send failed");
 		}
-	} while (result != 10); // refactor 10!!!
+	} while (result != DEFAULT_BUFLEN);
 }
 
 std::vector<std::string> ClientSocket::Recv()
@@ -192,7 +192,7 @@ std::vector<std::string> ClientSocket::Recv()
 	{
 		result = recv(sock, recvbuf, 4096, 0);
 		if (result > 0) {
-			std::cout << "Bytes received: " << result << std::endl;
+			std::cout << "Bytes received from server: " << result << std::endl;
 			data = recvbuf;
 			if (data.find('|') != std::string::npos)
 			{

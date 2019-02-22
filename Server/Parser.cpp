@@ -21,7 +21,7 @@ std::vector<std::pair<int, int>> Parser::GetIntervals()
 
 std::string Parser::ReadFile()
 {
-	std::ifstream f("intervals.xml");
+	std::ifstream f(FILE_NAME);
 	std::string file((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
 	return file;
 }
@@ -83,21 +83,29 @@ std::vector<std::pair<int, int>> Parser::MakePairs(std::vector<int> numbers)
 
 void Parser::WriteResultToFile(std::string& primeNumbers)
 {
-	std::fstream file("intervals.xml");
+	std::fstream file(FILE_NAME);
 	std::string file_str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 	std::string primes;
-	std::string::size_type pos = file_str.find("</root>");
-	if (pos != std::string::npos)
+	std::string::size_type pr = file_str.find("<primes>");
+	if (!(pr != std::string::npos))
 	{
-		std::string open_tag = "<primes>";
-		std::string close_tag = "</primes>";
-		std::string root_close_tag = "</root>";
-		file.seekp(pos+1);
-		primeNumbers.pop_back();
-		file << '\n' << open_tag << primeNumbers << close_tag << '\n' << root_close_tag;
+		std::string::size_type pos = file_str.find("</root>");
+		if (pos != std::string::npos)
+		{
+			std::string open_tag = "<primes>";
+			std::string close_tag = "</primes>";
+			std::string root_close_tag = "</root>";
+			file.seekp(pos);
+			primeNumbers.pop_back();
+			file << '\n' << "</interval>" << '\n' << open_tag << primeNumbers << close_tag << '\n' << root_close_tag;
+		}
+		else
+		{
+			std::cout << "root tag not found!" << std::endl;
+		}
 	}
 	else
 	{
-		std::cout << "\"words\" not found" << std::endl;
+		std::cout << std::endl << "Tag primes is already in the file. If you want to count again, remove the primes tags from the file.";
 	}
 }

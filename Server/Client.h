@@ -17,6 +17,7 @@ private:
 
 	void GetIntervals();
 	void AddTerminator();
+	void DisplayResult(const std::vector<int>& numbers);
 	std::vector<std::string> MakeStringsForSend(const std::vector<std::pair<int, int>>& intervals);
 	std::vector<int> ParseStringToIntVector(const std::string& s);
 };

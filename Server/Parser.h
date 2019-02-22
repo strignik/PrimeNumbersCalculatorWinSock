@@ -4,6 +4,8 @@
 #include <fstream>
 #include <regex>
 
+#include "Constants.h"
+
 class Parser
 {
 public:

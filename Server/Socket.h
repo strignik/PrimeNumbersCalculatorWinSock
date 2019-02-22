@@ -13,10 +13,9 @@
 #include <vector>
 #include <thread>
 
-#pragma comment(lib, "Ws2_32.lib")
+#include "Constants.h"
 
-static std::string DEFAULT_PORT = "8002";
-static const int DEFAULT_BUFLEN = 10;
+#pragma comment(lib, "Ws2_32.lib")
 
 struct addrinfo;
 

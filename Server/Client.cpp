@@ -39,6 +39,16 @@ void Client::AddTerminator()
 	this->intervals.push_back(terminator);
 }
 
+void Client::DisplayResult(const std::vector<int>& numbers)
+{
+	std::cout << std::endl << "Prime numbers: ";
+	for (auto x: numbers)
+	{
+		std::cout << x << " ";
+	}
+	std::cout << std::endl;
+}
+
 std::vector<std::string> Client::MakeStringsForSend(const std::vector<std::pair<int, int>>& intervals)
 {
 	std::vector<std::string> pairs_strings{};
@@ -54,6 +64,7 @@ void Client::GetResultFromServer()
 {
 	std::vector<std::string> data = ClientSocket::Recv();
 	primeNumbers = ParseStringToIntVector(data[0]);
+	DisplayResult(primeNumbers);
 	Parser p;
 	p.WriteResultToFile(data[0]);
 }
